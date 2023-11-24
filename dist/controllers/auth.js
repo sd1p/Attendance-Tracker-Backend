@@ -23,7 +23,7 @@ var Role;
     Role["FACULTY"] = "FACULTY";
 })(Role || (Role = {}));
 const prisma = (0, prismadb_1.getClient)();
-exports.registerUser = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.registerUser = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, rollno, password, role, email } = (req.body);
     const hashedPassword = yield bcrypt_1.default.hash(password, 12);
     const user = yield prisma.user.create({
@@ -41,6 +41,6 @@ exports.registerUser = (0, express_async_handler_1.default)((req, res, next) => 
     }
     return res.json(Object.assign(Object.assign({}, user), { token })).status(200);
 }));
-exports.getuserDetails = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.json({ user: req.user }).status(200);
+exports.getuserDetails = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.json({ user: req === null || req === void 0 ? void 0 : req.user }).status(200);
 }));
