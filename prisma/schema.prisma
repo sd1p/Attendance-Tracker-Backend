@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "./generated/prisma-client-js"
+
+}
+
+datasource db {
+    provider = "cockroachdb"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id         String       @id @default(uuid())
+    name   String
+    rollno     String?       @unique
+    email      String?       @unique
+    password   String
+    role       Role         @default(STUDENT)
+    createdAt  DateTime     @default(now())
+    Class      Class[]
+    Attendence Attendence[]
+}
+
+model Class {
+    id         String       @id @default(uuid())
+    sem        Int
+    subject    String
+    userId     String //for faculty
+    start      DateTime
+    duration   DateTime
+    createdAt  DateTime     @default(now())
+    user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Attendence Attendence[]
+}
+
+model Attendence {
+    id      String @id @default(uuid())
+    userId  String
+    classId String
+    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    class   Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+    STUDENT
+    FACULTY
+}
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   theme = "forest"
+//   includeRelationFromFields = true
+//   disableEmoji = true
+// }
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+  output = "./ERDdbml"
+}
+

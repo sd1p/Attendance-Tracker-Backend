@@ -1,0 +1,46 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  name String [not null]
+  rollno String [unique]
+  email String [unique]
+  password String [not null]
+  role Role [not null, default: 'STUDENT']
+  createdAt DateTime [default: `now()`, not null]
+  Class Class [not null]
+  Attendence Attendence [not null]
+}
+
+Table Class {
+  id String [pk]
+  sem Int [not null]
+  subject String [not null]
+  userId String [not null]
+  start DateTime [not null]
+  duration DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  user User [not null]
+  Attendence Attendence [not null]
+}
+
+Table Attendence {
+  id String [pk]
+  userId String [not null]
+  classId String [not null]
+  user User [not null]
+  class Class [not null]
+}
+
+Enum Role {
+  STUDENT
+  FACULTY
+}
+
+Ref: Class.userId > User.id [delete: Cascade]
+
+Ref: Attendence.userId > User.id [delete: Cascade]
+
+Ref: Attendence.classId > Class.id [delete: Cascade]
