@@ -19,12 +19,21 @@ app.get("/",(req: Request,res:Response)=>{
 
 app.use(routeNotFound);
 app.use(errorHandler);
+
 const port:number=parseInt(process.env.PORT as string,10)||4000;
 
-
-app.listen(port,()=>{
-    console.log(`Server is running on ${port}`);
+if(process.env.NODE_ENV==='dev'){
+    const hostname="192.168.29.33"
+app.listen(port,hostname,()=>{
+    console.log(`Server is running on ${hostname}:${port}`);
     
 })
+}else{
+    app.listen(port,()=>{
+        console.log(`Server is running on ${port}`);
+        
+    })  
+}
+
 
 app.on('error', (error:any) => console.error(error))

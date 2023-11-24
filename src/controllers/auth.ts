@@ -41,10 +41,8 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     if(user){
         token= await generateToken(user.id);
     }
-
-    let ver=await verifyToken(token as string);
     
-    return res.json({...user,token,ver}).status(200)
+    return res.json({...user,token}).status(200)
   });
   
 
