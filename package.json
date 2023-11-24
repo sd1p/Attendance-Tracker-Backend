@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx prisma generate && ts-node src/index.ts",
     "postinstall": "prisma generate",
-    "buildts": "tsc npx prisma generate",
+    "buildts": "tsc && npx prisma generate",
     "start": "node dist/index.js"
   },
   "author": "",
