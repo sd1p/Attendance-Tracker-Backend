@@ -56,8 +56,8 @@ enum Role {
 //   disableEmoji = true
 // }
 
-generator dbml {
-  provider = "prisma-dbml-generator"
-  output = "./ERDdbml"
-}
+// generator dbml {
+//   provider = "prisma-dbml-generator"
+//   output = "./ERDdbml"
+// }
 
