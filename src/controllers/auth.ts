@@ -11,7 +11,7 @@ enum Role {
 
 const prisma=getClient();
 
-export const registerUser = asyncHandler(async (req, res, next) => {
+export const registerUser = asyncHandler(async (req, res) => {
   
     const { name,rollno,password,role,email } = (req.body) as {
         name:string,
@@ -41,12 +41,13 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     if(user){
         token= await generateToken(user.id);
     }
+
     
     return res.json({...user,token}).status(200)
   });
   
 
-export const getuserDetails = asyncHandler(async (req, res, next) => {
+export const getuserDetails = asyncHandler(async (req, res) => {
   
-    return res.json({user:req.user}).status(200)
+    return res.json({user:req?.user}).status(200)
   });

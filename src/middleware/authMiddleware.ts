@@ -5,7 +5,7 @@ import ErrorHandler from "../libs/ErrorHandler";
 
 const prisma = getClient();
 
-export const isAuthenticated = asyncHandler(async (req, res, next) => {
+export const isAuthenticated = asyncHandler(async (req, res, next):Promise<void> => {
   let token;
 
   // Check if the Authorization header is present and starts with 'Bearer'
