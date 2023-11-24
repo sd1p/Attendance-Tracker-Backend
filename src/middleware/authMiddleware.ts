@@ -13,7 +13,13 @@ interface DecodedData {
 
 // Extend the Request interface to include the user property
 interface AuthenticatedRequest extends Request {
-  user?: string; // Replace YourUserType with the actual type of your user
+  user: {
+    name: string;
+    rollno?: string;
+    email?: string;
+    role?: string;
+    password: string;
+  }; // Replace YourUserType with the actual type of your user
 }
 
 export const isAuthenticated = asyncHandler(
@@ -34,11 +40,25 @@ export const isAuthenticated = asyncHandler(
     const decodedData = await verifyToken(token) as DecodedData;
 
     // Find the user associated with the decoded data
-    req.user = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id: decodedData.id,
       },
     });
+
+    if (!user) {
+      // Handle the case where the user is not found
+      return next(new ErrorHandler('User not found', 404));
+    }
+
+    // Assign the user to the request
+    req.user = {
+      name: user.name,
+      rollno: user.rollno || undefined,
+      email: user.email || undefined,
+      role: user.role || undefined,
+      password: user.password,
+    };
 
     next();
   }

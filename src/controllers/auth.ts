@@ -14,7 +14,7 @@ interface RegisterUserRequest extends Request {
     name: string;
     rollno?: string;
     email?: string;
-    role?: Role;
+    role?: Role|undefined;
     password: string;
   };
 }
@@ -47,11 +47,11 @@ export const registerUser = asyncHandler(
 );
 
 interface GetuserDetailsrRequest extends Request {
-    user: {
+    user?: {
       name: string;
       rollno?: string;
       email?: string;
-      role?: Role;
+      role?: Role|undefined;
       password: string;
     };
   }
