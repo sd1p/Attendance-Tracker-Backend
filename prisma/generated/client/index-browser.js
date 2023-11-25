@@ -127,7 +127,8 @@ exports.Prisma.ClassScalarFieldEnum = {
 exports.Prisma.AttendenceScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  classId: 'classId'
+  classId: 'classId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {

@@ -8,27 +8,29 @@ const prisma = getClient();
 
 interface DecodedData {
   id: string;
-  // Add other properties from your decoded token if needed
 }
 
-// Extend the Request interface to include the user property
+export enum Role {
+  STUDENT = "STUDENT",
+  FACULTY = "FACULTY",
+}
+
 interface AuthenticatedRequest extends Request {
-  user: {
+  user?: {
+    id:string;
     name: string;
     rollno?: string;
     email?: string;
-    role?: string;
+    role: string;
     password: string;
-  }; // Replace YourUserType with the actual type of your user
+  }; 
 }
 
 export const isAuthenticated = asyncHandler(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     let token;
 
-    // Check if the Authorization header is present and starts with 'Bearer'
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      // Get token from the Authorization header
       token = req.headers.authorization.split(' ')[1];
     }
 
@@ -36,10 +38,8 @@ export const isAuthenticated = asyncHandler(
       return next(new ErrorHandler('Please login to access this resource', 401));
     }
 
-    // Verify the token
     const decodedData = await verifyToken(token) as DecodedData;
 
-    // Find the user associated with the decoded data
     const user = await prisma.user.findUnique({
       where: {
         id: decodedData.id,
@@ -47,12 +47,11 @@ export const isAuthenticated = asyncHandler(
     });
 
     if (!user) {
-      // Handle the case where the user is not found
       return next(new ErrorHandler('User not found', 404));
     }
 
-    // Assign the user to the request
     req.user = {
+      id:decodedData.id,
       name: user.name,
       rollno: user.rollno || undefined,
       email: user.email || undefined,
@@ -63,3 +62,21 @@ export const isAuthenticated = asyncHandler(
     next();
   }
 );
+
+
+
+export const authorizedRoles = (allowedRole:Role) => {
+  return (req:AuthenticatedRequest, res:Response, next:NextFunction):void => {
+
+    if (req.user?.role!==allowedRole) {
+      return next(
+        new ErrorHandler(
+          `Role ${req.user?.role} is not allowed to access this resource`,
+          403
+        )
+      );
+    }
+
+    next();
+  };
+};

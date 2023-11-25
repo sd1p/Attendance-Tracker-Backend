@@ -2,7 +2,7 @@ import { Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import { getClient } from '../../config/prismadb';
 import bcrypt from 'bcrypt';
-import { generateToken, verifyToken } from '../../libs/jwtToken';
+import { generateToken} from '../../libs/jwtToken';
 import { GetUserDetailsRequest, RegisterUserRequest} from './interface';
 import ErrorHandler from '../../libs/ErrorHandler';
 

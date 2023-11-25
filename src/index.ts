@@ -4,6 +4,8 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import {errorHandler,routeNotFound} from "./middleware/errorMiddleware"
 import authRoutes from "./routes/authRoutes"
+import classRoutes from "./routes/classRoutes"
+import attendanceRoutes from "./routes/attendanceRoutes"
 
 dotenv.config();
 
@@ -11,7 +13,9 @@ const app=express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api",authRoutes)
+app.use("/api",authRoutes);
+app.use("/api",classRoutes);
+app.use("/api",attendanceRoutes);
 
 app.get("/",(req: Request,res:Response)=>{
     res.status(200).json({message:"hey there"});

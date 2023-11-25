@@ -3119,18 +3119,21 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     classId: string | null
+    createdAt: Date | null
   }
 
   export type AttendenceMaxAggregateOutputType = {
     id: string | null
     userId: string | null
     classId: string | null
+    createdAt: Date | null
   }
 
   export type AttendenceCountAggregateOutputType = {
     id: number
     userId: number
     classId: number
+    createdAt: number
     _all: number
   }
 
@@ -3139,18 +3142,21 @@ export namespace Prisma {
     id?: true
     userId?: true
     classId?: true
+    createdAt?: true
   }
 
   export type AttendenceMaxAggregateInputType = {
     id?: true
     userId?: true
     classId?: true
+    createdAt?: true
   }
 
   export type AttendenceCountAggregateInputType = {
     id?: true
     userId?: true
     classId?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -3230,6 +3236,7 @@ export namespace Prisma {
     id: string
     userId: string
     classId: string
+    createdAt: Date
     _count: AttendenceCountAggregateOutputType | null
     _min: AttendenceMinAggregateOutputType | null
     _max: AttendenceMaxAggregateOutputType | null
@@ -3253,6 +3260,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     classId?: boolean
+    createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     class?: boolean | ClassDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendence"]>
@@ -3261,6 +3269,7 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     classId?: boolean
+    createdAt?: boolean
   }
 
   export type AttendenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3279,6 +3288,7 @@ export namespace Prisma {
       id: string
       userId: string
       classId: string
+      createdAt: Date
     }, ExtArgs["result"]["attendence"]>
     composites: {}
   }
@@ -3679,6 +3689,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Attendence", 'String'>
     readonly userId: FieldRef<"Attendence", 'String'>
     readonly classId: FieldRef<"Attendence", 'String'>
+    readonly createdAt: FieldRef<"Attendence", 'DateTime'>
   }
     
 
@@ -4046,7 +4057,8 @@ export namespace Prisma {
   export const AttendenceScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    classId: 'classId'
+    classId: 'classId',
+    createdAt: 'createdAt'
   };
 
   export type AttendenceScalarFieldEnum = (typeof AttendenceScalarFieldEnum)[keyof typeof AttendenceScalarFieldEnum]
@@ -4262,7 +4274,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Class"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     Attendence?: AttendenceListRelationFilter
-  }, "id">
+  }, "id" | "id">
 
   export type ClassOrderByWithAggregationInput = {
     id?: SortOrder
@@ -4299,6 +4311,7 @@ export namespace Prisma {
     id?: StringFilter<"Attendence"> | string
     userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    createdAt?: DateTimeFilter<"Attendence"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     class?: XOR<ClassRelationFilter, ClassWhereInput>
   }
@@ -4307,25 +4320,28 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     class?: ClassOrderByWithRelationInput
   }
 
   export type AttendenceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId?: string
     AND?: AttendenceWhereInput | AttendenceWhereInput[]
     OR?: AttendenceWhereInput[]
     NOT?: AttendenceWhereInput | AttendenceWhereInput[]
-    userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    createdAt?: DateTimeFilter<"Attendence"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     class?: XOR<ClassRelationFilter, ClassWhereInput>
-  }, "id">
+  }, "id" | "userId">
 
   export type AttendenceOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    createdAt?: SortOrder
     _count?: AttendenceCountOrderByAggregateInput
     _max?: AttendenceMaxOrderByAggregateInput
     _min?: AttendenceMinOrderByAggregateInput
@@ -4338,6 +4354,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Attendence"> | string
     userId?: StringWithAggregatesFilter<"Attendence"> | string
     classId?: StringWithAggregatesFilter<"Attendence"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Attendence"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -4493,6 +4510,7 @@ export namespace Prisma {
 
   export type AttendenceCreateInput = {
     id?: string
+    createdAt?: Date | string
     user: UserCreateNestedOneWithoutAttendenceInput
     class: ClassCreateNestedOneWithoutAttendenceInput
   }
@@ -4501,10 +4519,12 @@ export namespace Prisma {
     id?: string
     userId: string
     classId: string
+    createdAt?: Date | string
   }
 
   export type AttendenceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAttendenceNestedInput
     class?: ClassUpdateOneRequiredWithoutAttendenceNestedInput
   }
@@ -4513,22 +4533,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceCreateManyInput = {
     id?: string
     userId: string
     classId: string
+    createdAt?: Date | string
   }
 
   export type AttendenceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4773,18 +4797,21 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AttendenceMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AttendenceMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ClassCreateNestedManyWithoutUserInput = {
@@ -5164,12 +5191,14 @@ export namespace Prisma {
 
   export type AttendenceCreateWithoutUserInput = {
     id?: string
+    createdAt?: Date | string
     class: ClassCreateNestedOneWithoutAttendenceInput
   }
 
   export type AttendenceUncheckedCreateWithoutUserInput = {
     id?: string
     classId: string
+    createdAt?: Date | string
   }
 
   export type AttendenceCreateOrConnectWithoutUserInput = {
@@ -5234,6 +5263,7 @@ export namespace Prisma {
     id?: StringFilter<"Attendence"> | string
     userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    createdAt?: DateTimeFilter<"Attendence"> | Date | string
   }
 
   export type UserCreateWithoutClassInput = {
@@ -5265,12 +5295,14 @@ export namespace Prisma {
 
   export type AttendenceCreateWithoutClassInput = {
     id?: string
+    createdAt?: Date | string
     user: UserCreateNestedOneWithoutAttendenceInput
   }
 
   export type AttendenceUncheckedCreateWithoutClassInput = {
     id?: string
     userId: string
+    createdAt?: Date | string
   }
 
   export type AttendenceCreateOrConnectWithoutClassInput = {
@@ -5460,6 +5492,7 @@ export namespace Prisma {
   export type AttendenceCreateManyUserInput = {
     id?: string
     classId: string
+    createdAt?: Date | string
   }
 
   export type ClassUpdateWithoutUserInput = {
@@ -5493,37 +5526,44 @@ export namespace Prisma {
 
   export type AttendenceUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneRequiredWithoutAttendenceNestedInput
   }
 
   export type AttendenceUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceCreateManyClassInput = {
     id?: string
     userId: string
+    createdAt?: Date | string
   }
 
   export type AttendenceUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAttendenceNestedInput
   }
 
   export type AttendenceUncheckedUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceUncheckedUpdateManyWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

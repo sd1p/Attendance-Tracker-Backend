@@ -4,7 +4,6 @@
 generator client {
     provider = "prisma-client-js"
     output   = "./generated/client"
-
 }
 
 datasource db {
@@ -13,20 +12,19 @@ datasource db {
 }
 
 model User {
-    id         String       @id @default(uuid()) @unique
-    name   String
-    rollno     String?       @unique
-    email      String?       @unique
+    id         String       @id @unique @default(uuid())
+    name       String
+    rollno     String?      @unique
+    email      String?      @unique
     password   String
     role       Role         @default(STUDENT)
     createdAt  DateTime     @default(now())
     Class      Class[]
     Attendence Attendence[]
-    
 }
 
 model Class {
-    id         String       @id @default(uuid())
+    id         String       @id @unique @default(uuid())
     sem        Int
     subject    String
     userId     String //for faculty
@@ -38,11 +36,12 @@ model Class {
 }
 
 model Attendence {
-    id      String @id @default(uuid())
-    userId  String
-    classId String
-    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    class   Class  @relation(fields: [classId], references: [id], onDelete: Cascade)
+    id        String   @id @default(uuid())
+    userId    String   @unique
+    classId   String
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -61,4 +60,3 @@ enum Role {
 //   provider = "prisma-dbml-generator"
 //   output = "./ERDdbml"
 // }
-

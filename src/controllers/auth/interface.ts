@@ -17,11 +17,12 @@ export interface RegisterUserRequest extends Request {
 
 export interface GetUserDetailsRequest extends Request {
   user?: {
-    name?: string;
+    id:string
+    name: string;
     rollno?: string;
     email?: string;
-    role?: Role | undefined;
-    password?: string;
+    role: Role | undefined;
+    password: string;
   };
 }
 
