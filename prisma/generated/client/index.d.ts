@@ -4194,7 +4194,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     Class?: ClassListRelationFilter
     Attendence?: AttendenceListRelationFilter
-  }, "id" | "rollno" | "email">
+  }, "id" | "id" | "rollno" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder

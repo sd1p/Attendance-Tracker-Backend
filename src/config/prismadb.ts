@@ -13,3 +13,4 @@ export const getClient = () => {
 };
 
 export default getClient();
+// singleton for prisma client

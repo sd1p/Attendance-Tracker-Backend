@@ -22,7 +22,7 @@ app.use(errorHandler);
 
 const port:number=parseInt(process.env.PORT as string,10)||4000;
 
-if(process.env.NODE_ENV==='dev'){
+if(process.env.NODE_ENV==='dev'&&false){
     const hostname="192.168.29.33"
 app.listen(port,hostname,()=>{
     console.log(`Server is running on ${hostname}:${port}`);
