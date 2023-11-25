@@ -1,6 +1,6 @@
 import express from 'express'
 import { authorizedRoles, isAuthenticated } from '../middleware/authMiddleware';
-import { createClass } from '../controllers/class/class';
+import { createClass } from '../controllers/class/classController';
 import { Role } from '../controllers/auth/interface';
 
 const router =express.Router()

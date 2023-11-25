@@ -1,5 +1,5 @@
 import express from 'express'
-import {getUserDetails, loginUser, registerUser} from "../controllers/auth/auth"
+import {getUserDetails, loginUser, registerUser} from "../controllers/auth/authController"
 import { isAuthenticated } from '../middleware/authMiddleware';
 
 const router =express.Router()

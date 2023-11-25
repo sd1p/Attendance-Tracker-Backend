@@ -47,7 +47,7 @@ export const isAuthenticated = asyncHandler(
     });
 
     if (!user) {
-      return next(new ErrorHandler('User not found', 404));
+      return next(new ErrorHandler('User Not Logged In (Token expired or invalid)', 404));
     }
 
     req.user = {
