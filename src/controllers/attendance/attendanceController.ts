@@ -7,8 +7,7 @@ import { AddAttendanceRequest, GetAttendanceRequest } from "./interface";
 // only student routes
 export const addAttendance = asyncHandler(
   async (req: AddAttendanceRequest, res: Response): Promise<void> => {
-    const { classId } = req.body;
-    const userId = req.user.id;
+    const { classId,userId } = req.body;
     const prisma = getClient();
 
     const attandance = await prisma.attendence.create({

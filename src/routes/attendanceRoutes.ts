@@ -9,7 +9,7 @@ export enum Role {
     FACULTY = "FACULTY",
   }
 
-router.route("/attendance").post(isAuthenticated,authorizedRoles(Role.STUDENT),addAttendance);
+router.route("/attendance").post(isAuthenticated,authorizedRoles(Role.FACULTY),addAttendance);
 router.route("/attendance").get(isAuthenticated,authorizedRoles(Role.STUDENT),getAttendance);
 
 
