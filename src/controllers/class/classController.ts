@@ -53,6 +53,9 @@ export const getClass = asyncHandler(
       where:{
         userId
       },
+      include:{
+        subject:true
+      },
       orderBy:{
         createdAt:"desc"
       }
