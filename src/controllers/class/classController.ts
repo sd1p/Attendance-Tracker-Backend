@@ -77,18 +77,33 @@ export const getClassAttendance = asyncHandler(
     const { classId } = req.body;
     const userId=req.user.id;
     const prisma = getClient();
-    const Attendance = await prisma.class.findUnique({
-      where:{
-        id:classId
+    const attendance = await prisma.class.findUnique({
+      where: {
+        id: classId,
       },
-      include:{
-        Attendence:true
+      include: {
+        Attendence: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                rollno: true,
+              },
+            },
+          },
+          orderBy:{
+            createdAt:'desc'
+          }
+        },
       },
-    })
+    });
 
-
+    if (!attendance) {
+      throw new ErrorHandler('Class not found', 404);
+    }
     if (createClass) {
-        res.json(Attendance).status(200);
+        res.json(attendance).status(200);
     } else {
       throw new ErrorHandler("Class Already created", 400);
     }
