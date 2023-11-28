@@ -3,8 +3,7 @@ import { Role } from "../auth/interface";
 
 export interface CreateClassRequest extends Request {
     body: {
-        sem:number;
-        subject:string
+        courseId:string
         userId:string
         start:string,
         duration:string

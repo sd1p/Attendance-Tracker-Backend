@@ -25,23 +25,35 @@ model User {
 
 model Class {
     id         String       @id @unique @default(uuid())
-    sem        Int
-    subject    String
-    userId     String //for faculty
-    start      DateTime
-    duration   DateTime
+    subjectId  String  //given by subject ID     
+    userId     String  //for faculty
+    start      String 
+    duration   String 
     createdAt  DateTime     @default(now())
     user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subject    Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+    Attendence Attendence[]
+}
+
+model Subject {
+    id         String       @id @unique @default(uuid())
+    sem        Int
+    coursename String
+    courseId   String       @unique
+    Class      Class[]
     Attendence Attendence[]
 }
 
 model Attendence {
     id        String   @id @default(uuid())
-    userId    String   @unique
-    classId   String
+    userId    String  // rolno->
+    classId   String  
+    subjectId String   
     createdAt DateTime @default(now())
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+    subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+    @@unique([userId, classId])
 }
 
 enum Role {

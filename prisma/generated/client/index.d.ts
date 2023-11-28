@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Class = $Result.DefaultSelection<Prisma.$ClassPayload>
 /**
+ * Model Subject
+ * 
+ */
+export type Subject = $Result.DefaultSelection<Prisma.$SubjectPayload>
+/**
  * Model Attendence
  * 
  */
@@ -187,6 +192,16 @@ export class PrismaClient<
     * ```
     */
   get class(): Prisma.ClassDelegate<ExtArgs>;
+
+  /**
+   * `prisma.subject`: Exposes CRUD operations for the **Subject** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Subjects
+    * const subjects = await prisma.subject.findMany()
+    * ```
+    */
+  get subject(): Prisma.SubjectDelegate<ExtArgs>;
 
   /**
    * `prisma.attendence`: Exposes CRUD operations for the **Attendence** model.
@@ -669,6 +684,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Class: 'Class',
+    Subject: 'Subject',
     Attendence: 'Attendence'
   };
 
@@ -686,7 +702,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'user' | 'class' | 'attendence'
+      modelProps: 'user' | 'class' | 'subject' | 'attendence'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -819,6 +835,72 @@ export namespace Prisma {
           count: {
             args: Prisma.ClassCountArgs<ExtArgs>,
             result: $Utils.Optional<ClassCountAggregateOutputType> | number
+          }
+        }
+      }
+      Subject: {
+        payload: Prisma.$SubjectPayload<ExtArgs>
+        fields: Prisma.SubjectFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubjectFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubjectFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          findFirst: {
+            args: Prisma.SubjectFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubjectFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          findMany: {
+            args: Prisma.SubjectFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>[]
+          }
+          create: {
+            args: Prisma.SubjectCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          createMany: {
+            args: Prisma.SubjectCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.SubjectDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          update: {
+            args: Prisma.SubjectUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubjectDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubjectUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.SubjectUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$SubjectPayload>
+          }
+          aggregate: {
+            args: Prisma.SubjectAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateSubject>
+          }
+          groupBy: {
+            args: Prisma.SubjectGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<SubjectGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubjectCountArgs<ExtArgs>,
+            result: $Utils.Optional<SubjectCountAggregateOutputType> | number
           }
         }
       }
@@ -1105,6 +1187,50 @@ export namespace Prisma {
    * ClassCountOutputType without action
    */
   export type ClassCountOutputTypeCountAttendenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttendenceWhereInput
+  }
+
+
+
+  /**
+   * Count Type SubjectCountOutputType
+   */
+
+  export type SubjectCountOutputType = {
+    Class: number
+    Attendence: number
+  }
+
+  export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Class?: boolean | SubjectCountOutputTypeCountClassArgs
+    Attendence?: boolean | SubjectCountOutputTypeCountAttendenceArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubjectCountOutputType
+     */
+    select?: SubjectCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountClassArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClassWhereInput
+  }
+
+
+  /**
+   * SubjectCountOutputType without action
+   */
+  export type SubjectCountOutputTypeCountAttendenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendenceWhereInput
   }
 
@@ -2109,44 +2235,31 @@ export namespace Prisma {
 
   export type AggregateClass = {
     _count: ClassCountAggregateOutputType | null
-    _avg: ClassAvgAggregateOutputType | null
-    _sum: ClassSumAggregateOutputType | null
     _min: ClassMinAggregateOutputType | null
     _max: ClassMaxAggregateOutputType | null
   }
 
-  export type ClassAvgAggregateOutputType = {
-    sem: number | null
-  }
-
-  export type ClassSumAggregateOutputType = {
-    sem: number | null
-  }
-
   export type ClassMinAggregateOutputType = {
     id: string | null
-    sem: number | null
-    subject: string | null
+    subjectId: string | null
     userId: string | null
-    start: Date | null
-    duration: Date | null
+    start: string | null
+    duration: string | null
     createdAt: Date | null
   }
 
   export type ClassMaxAggregateOutputType = {
     id: string | null
-    sem: number | null
-    subject: string | null
+    subjectId: string | null
     userId: string | null
-    start: Date | null
-    duration: Date | null
+    start: string | null
+    duration: string | null
     createdAt: Date | null
   }
 
   export type ClassCountAggregateOutputType = {
     id: number
-    sem: number
-    subject: number
+    subjectId: number
     userId: number
     start: number
     duration: number
@@ -2155,18 +2268,9 @@ export namespace Prisma {
   }
 
 
-  export type ClassAvgAggregateInputType = {
-    sem?: true
-  }
-
-  export type ClassSumAggregateInputType = {
-    sem?: true
-  }
-
   export type ClassMinAggregateInputType = {
     id?: true
-    sem?: true
-    subject?: true
+    subjectId?: true
     userId?: true
     start?: true
     duration?: true
@@ -2175,8 +2279,7 @@ export namespace Prisma {
 
   export type ClassMaxAggregateInputType = {
     id?: true
-    sem?: true
-    subject?: true
+    subjectId?: true
     userId?: true
     start?: true
     duration?: true
@@ -2185,8 +2288,7 @@ export namespace Prisma {
 
   export type ClassCountAggregateInputType = {
     id?: true
-    sem?: true
-    subject?: true
+    subjectId?: true
     userId?: true
     start?: true
     duration?: true
@@ -2232,18 +2334,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: ClassAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ClassSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: ClassMinAggregateInputType
@@ -2274,23 +2364,18 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ClassCountAggregateInputType | true
-    _avg?: ClassAvgAggregateInputType
-    _sum?: ClassSumAggregateInputType
     _min?: ClassMinAggregateInputType
     _max?: ClassMaxAggregateInputType
   }
 
   export type ClassGroupByOutputType = {
     id: string
-    sem: number
-    subject: string
+    subjectId: string
     userId: string
-    start: Date
-    duration: Date
+    start: string
+    duration: string
     createdAt: Date
     _count: ClassCountAggregateOutputType | null
-    _avg: ClassAvgAggregateOutputType | null
-    _sum: ClassSumAggregateOutputType | null
     _min: ClassMinAggregateOutputType | null
     _max: ClassMaxAggregateOutputType | null
   }
@@ -2311,21 +2396,20 @@ export namespace Prisma {
 
   export type ClassSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sem?: boolean
-    subject?: boolean
+    subjectId?: boolean
     userId?: boolean
     start?: boolean
     duration?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
     Attendence?: boolean | Class$AttendenceArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["class"]>
 
   export type ClassSelectScalar = {
     id?: boolean
-    sem?: boolean
-    subject?: boolean
+    subjectId?: boolean
     userId?: boolean
     start?: boolean
     duration?: boolean
@@ -2334,6 +2418,7 @@ export namespace Prisma {
 
   export type ClassInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
     Attendence?: boolean | Class$AttendenceArgs<ExtArgs>
     _count?: boolean | ClassCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2343,15 +2428,15 @@ export namespace Prisma {
     name: "Class"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
       Attendence: Prisma.$AttendencePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      sem: number
-      subject: string
+      subjectId: string
       userId: string
-      start: Date
-      duration: Date
+      start: string
+      duration: string
       createdAt: Date
     }, ExtArgs["result"]["class"]>
     composites: {}
@@ -2720,6 +2805,8 @@ export namespace Prisma {
 
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
     Attendence<T extends Class$AttendenceArgs<ExtArgs> = {}>(args?: Subset<T, Class$AttendenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendencePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
@@ -2751,11 +2838,10 @@ export namespace Prisma {
    */ 
   interface ClassFieldRefs {
     readonly id: FieldRef<"Class", 'String'>
-    readonly sem: FieldRef<"Class", 'Int'>
-    readonly subject: FieldRef<"Class", 'String'>
+    readonly subjectId: FieldRef<"Class", 'String'>
     readonly userId: FieldRef<"Class", 'String'>
-    readonly start: FieldRef<"Class", 'DateTime'>
-    readonly duration: FieldRef<"Class", 'DateTime'>
+    readonly start: FieldRef<"Class", 'String'>
+    readonly duration: FieldRef<"Class", 'String'>
     readonly createdAt: FieldRef<"Class", 'DateTime'>
   }
     
@@ -3106,6 +3192,996 @@ export namespace Prisma {
 
 
   /**
+   * Model Subject
+   */
+
+  export type AggregateSubject = {
+    _count: SubjectCountAggregateOutputType | null
+    _avg: SubjectAvgAggregateOutputType | null
+    _sum: SubjectSumAggregateOutputType | null
+    _min: SubjectMinAggregateOutputType | null
+    _max: SubjectMaxAggregateOutputType | null
+  }
+
+  export type SubjectAvgAggregateOutputType = {
+    sem: number | null
+  }
+
+  export type SubjectSumAggregateOutputType = {
+    sem: number | null
+  }
+
+  export type SubjectMinAggregateOutputType = {
+    id: string | null
+    sem: number | null
+    coursename: string | null
+    courseId: string | null
+  }
+
+  export type SubjectMaxAggregateOutputType = {
+    id: string | null
+    sem: number | null
+    coursename: string | null
+    courseId: string | null
+  }
+
+  export type SubjectCountAggregateOutputType = {
+    id: number
+    sem: number
+    coursename: number
+    courseId: number
+    _all: number
+  }
+
+
+  export type SubjectAvgAggregateInputType = {
+    sem?: true
+  }
+
+  export type SubjectSumAggregateInputType = {
+    sem?: true
+  }
+
+  export type SubjectMinAggregateInputType = {
+    id?: true
+    sem?: true
+    coursename?: true
+    courseId?: true
+  }
+
+  export type SubjectMaxAggregateInputType = {
+    id?: true
+    sem?: true
+    coursename?: true
+    courseId?: true
+  }
+
+  export type SubjectCountAggregateInputType = {
+    id?: true
+    sem?: true
+    coursename?: true
+    courseId?: true
+    _all?: true
+  }
+
+  export type SubjectAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subject to aggregate.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Subjects
+    **/
+    _count?: true | SubjectCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubjectAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubjectSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubjectMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubjectMaxAggregateInputType
+  }
+
+  export type GetSubjectAggregateType<T extends SubjectAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubject]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubject[P]>
+      : GetScalarType<T[P], AggregateSubject[P]>
+  }
+
+
+
+
+  export type SubjectGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubjectWhereInput
+    orderBy?: SubjectOrderByWithAggregationInput | SubjectOrderByWithAggregationInput[]
+    by: SubjectScalarFieldEnum[] | SubjectScalarFieldEnum
+    having?: SubjectScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubjectCountAggregateInputType | true
+    _avg?: SubjectAvgAggregateInputType
+    _sum?: SubjectSumAggregateInputType
+    _min?: SubjectMinAggregateInputType
+    _max?: SubjectMaxAggregateInputType
+  }
+
+  export type SubjectGroupByOutputType = {
+    id: string
+    sem: number
+    coursename: string
+    courseId: string
+    _count: SubjectCountAggregateOutputType | null
+    _avg: SubjectAvgAggregateOutputType | null
+    _sum: SubjectSumAggregateOutputType | null
+    _min: SubjectMinAggregateOutputType | null
+    _max: SubjectMaxAggregateOutputType | null
+  }
+
+  type GetSubjectGroupByPayload<T extends SubjectGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubjectGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubjectGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubjectGroupByOutputType[P]>
+            : GetScalarType<T[P], SubjectGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    sem?: boolean
+    coursename?: boolean
+    courseId?: boolean
+    Class?: boolean | Subject$ClassArgs<ExtArgs>
+    Attendence?: boolean | Subject$AttendenceArgs<ExtArgs>
+    _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subject"]>
+
+  export type SubjectSelectScalar = {
+    id?: boolean
+    sem?: boolean
+    coursename?: boolean
+    courseId?: boolean
+  }
+
+  export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Class?: boolean | Subject$ClassArgs<ExtArgs>
+    Attendence?: boolean | Subject$AttendenceArgs<ExtArgs>
+    _count?: boolean | SubjectCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+
+  export type $SubjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Subject"
+    objects: {
+      Class: Prisma.$ClassPayload<ExtArgs>[]
+      Attendence: Prisma.$AttendencePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      sem: number
+      coursename: string
+      courseId: string
+    }, ExtArgs["result"]["subject"]>
+    composites: {}
+  }
+
+
+  type SubjectGetPayload<S extends boolean | null | undefined | SubjectDefaultArgs> = $Result.GetResult<Prisma.$SubjectPayload, S>
+
+  type SubjectCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SubjectFindManyArgs, 'select' | 'include' | 'distinct' > & {
+      select?: SubjectCountAggregateInputType | true
+    }
+
+  export interface SubjectDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Subject'], meta: { name: 'Subject' } }
+    /**
+     * Find zero or one Subject that matches the filter.
+     * @param {SubjectFindUniqueArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SubjectFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectFindUniqueArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Subject that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SubjectFindUniqueOrThrowArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SubjectFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Subject that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindFirstArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SubjectFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectFindFirstArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Subject that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindFirstOrThrowArgs} args - Arguments to find a Subject
+     * @example
+     * // Get one Subject
+     * const subject = await prisma.subject.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SubjectFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Subjects that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Subjects
+     * const subjects = await prisma.subject.findMany()
+     * 
+     * // Get first 10 Subjects
+     * const subjects = await prisma.subject.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subjectWithIdOnly = await prisma.subject.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SubjectFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Subject.
+     * @param {SubjectCreateArgs} args - Arguments to create a Subject.
+     * @example
+     * // Create one Subject
+     * const Subject = await prisma.subject.create({
+     *   data: {
+     *     // ... data to create a Subject
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SubjectCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectCreateArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Subjects.
+     *     @param {SubjectCreateManyArgs} args - Arguments to create many Subjects.
+     *     @example
+     *     // Create many Subjects
+     *     const subject = await prisma.subject.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SubjectCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Subject.
+     * @param {SubjectDeleteArgs} args - Arguments to delete one Subject.
+     * @example
+     * // Delete one Subject
+     * const Subject = await prisma.subject.delete({
+     *   where: {
+     *     // ... filter to delete one Subject
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SubjectDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectDeleteArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Subject.
+     * @param {SubjectUpdateArgs} args - Arguments to update one Subject.
+     * @example
+     * // Update one Subject
+     * const subject = await prisma.subject.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SubjectUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectUpdateArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Subjects.
+     * @param {SubjectDeleteManyArgs} args - Arguments to filter Subjects to delete.
+     * @example
+     * // Delete a few Subjects
+     * const { count } = await prisma.subject.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SubjectDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubjectDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Subjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Subjects
+     * const subject = await prisma.subject.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SubjectUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Subject.
+     * @param {SubjectUpsertArgs} args - Arguments to update or create a Subject.
+     * @example
+     * // Update or create a Subject
+     * const subject = await prisma.subject.upsert({
+     *   create: {
+     *     // ... data to create a Subject
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Subject we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SubjectUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SubjectUpsertArgs<ExtArgs>>
+    ): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Subjects.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectCountArgs} args - Arguments to filter Subjects to count.
+     * @example
+     * // Count the number of Subjects
+     * const count = await prisma.subject.count({
+     *   where: {
+     *     // ... the filter for the Subjects we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubjectCountArgs>(
+      args?: Subset<T, SubjectCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubjectCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Subject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubjectAggregateArgs>(args: Subset<T, SubjectAggregateArgs>): Prisma.PrismaPromise<GetSubjectAggregateType<T>>
+
+    /**
+     * Group by Subject.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubjectGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubjectGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubjectGroupByArgs['orderBy'] }
+        : { orderBy?: SubjectGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubjectGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubjectGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Subject model
+   */
+  readonly fields: SubjectFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Subject.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    Class<T extends Subject$ClassArgs<ExtArgs> = {}>(args?: Subset<T, Subject$ClassArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Attendence<T extends Subject$AttendenceArgs<ExtArgs> = {}>(args?: Subset<T, Subject$AttendenceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendencePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Subject model
+   */ 
+  interface SubjectFieldRefs {
+    readonly id: FieldRef<"Subject", 'String'>
+    readonly sem: FieldRef<"Subject", 'Int'>
+    readonly coursename: FieldRef<"Subject", 'String'>
+    readonly courseId: FieldRef<"Subject", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Subject findUnique
+   */
+  export type SubjectFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+
+  /**
+   * Subject findUniqueOrThrow
+   */
+  export type SubjectFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+
+  /**
+   * Subject findFirst
+   */
+  export type SubjectFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subjects.
+     */
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subject findFirstOrThrow
+   */
+  export type SubjectFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subject to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Subjects.
+     */
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subject findMany
+   */
+  export type SubjectFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter, which Subjects to fetch.
+     */
+    where?: SubjectWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Subjects to fetch.
+     */
+    orderBy?: SubjectOrderByWithRelationInput | SubjectOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Subjects.
+     */
+    cursor?: SubjectWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Subjects from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Subjects.
+     */
+    skip?: number
+    distinct?: SubjectScalarFieldEnum | SubjectScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subject create
+   */
+  export type SubjectCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Subject.
+     */
+    data: XOR<SubjectCreateInput, SubjectUncheckedCreateInput>
+  }
+
+
+  /**
+   * Subject createMany
+   */
+  export type SubjectCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Subjects.
+     */
+    data: SubjectCreateManyInput | SubjectCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Subject update
+   */
+  export type SubjectUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Subject.
+     */
+    data: XOR<SubjectUpdateInput, SubjectUncheckedUpdateInput>
+    /**
+     * Choose, which Subject to update.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+
+  /**
+   * Subject updateMany
+   */
+  export type SubjectUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Subjects.
+     */
+    data: XOR<SubjectUpdateManyMutationInput, SubjectUncheckedUpdateManyInput>
+    /**
+     * Filter which Subjects to update
+     */
+    where?: SubjectWhereInput
+  }
+
+
+  /**
+   * Subject upsert
+   */
+  export type SubjectUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Subject to update in case it exists.
+     */
+    where: SubjectWhereUniqueInput
+    /**
+     * In case the Subject found by the `where` argument doesn't exist, create a new Subject with this data.
+     */
+    create: XOR<SubjectCreateInput, SubjectUncheckedCreateInput>
+    /**
+     * In case the Subject was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubjectUpdateInput, SubjectUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Subject delete
+   */
+  export type SubjectDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+    /**
+     * Filter which Subject to delete.
+     */
+    where: SubjectWhereUniqueInput
+  }
+
+
+  /**
+   * Subject deleteMany
+   */
+  export type SubjectDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Subjects to delete
+     */
+    where?: SubjectWhereInput
+  }
+
+
+  /**
+   * Subject.Class
+   */
+  export type Subject$ClassArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Class
+     */
+    select?: ClassSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ClassInclude<ExtArgs> | null
+    where?: ClassWhereInput
+    orderBy?: ClassOrderByWithRelationInput | ClassOrderByWithRelationInput[]
+    cursor?: ClassWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClassScalarFieldEnum | ClassScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subject.Attendence
+   */
+  export type Subject$AttendenceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attendence
+     */
+    select?: AttendenceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: AttendenceInclude<ExtArgs> | null
+    where?: AttendenceWhereInput
+    orderBy?: AttendenceOrderByWithRelationInput | AttendenceOrderByWithRelationInput[]
+    cursor?: AttendenceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttendenceScalarFieldEnum | AttendenceScalarFieldEnum[]
+  }
+
+
+  /**
+   * Subject without action
+   */
+  export type SubjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subject
+     */
+    select?: SubjectSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubjectInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Model Attendence
    */
 
@@ -3119,6 +4195,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     classId: string | null
+    subjectId: string | null
     createdAt: Date | null
   }
 
@@ -3126,6 +4203,7 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     classId: string | null
+    subjectId: string | null
     createdAt: Date | null
   }
 
@@ -3133,6 +4211,7 @@ export namespace Prisma {
     id: number
     userId: number
     classId: number
+    subjectId: number
     createdAt: number
     _all: number
   }
@@ -3142,6 +4221,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     classId?: true
+    subjectId?: true
     createdAt?: true
   }
 
@@ -3149,6 +4229,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     classId?: true
+    subjectId?: true
     createdAt?: true
   }
 
@@ -3156,6 +4237,7 @@ export namespace Prisma {
     id?: true
     userId?: true
     classId?: true
+    subjectId?: true
     createdAt?: true
     _all?: true
   }
@@ -3236,6 +4318,7 @@ export namespace Prisma {
     id: string
     userId: string
     classId: string
+    subjectId: string
     createdAt: Date
     _count: AttendenceCountAggregateOutputType | null
     _min: AttendenceMinAggregateOutputType | null
@@ -3260,21 +4343,25 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     classId?: boolean
+    subjectId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendence"]>
 
   export type AttendenceSelectScalar = {
     id?: boolean
     userId?: boolean
     classId?: boolean
+    subjectId?: boolean
     createdAt?: boolean
   }
 
   export type AttendenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     class?: boolean | ClassDefaultArgs<ExtArgs>
+    subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }
 
 
@@ -3283,11 +4370,13 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       class: Prisma.$ClassPayload<ExtArgs>
+      subject: Prisma.$SubjectPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
       classId: string
+      subjectId: string
       createdAt: Date
     }, ExtArgs["result"]["attendence"]>
     composites: {}
@@ -3658,6 +4747,8 @@ export namespace Prisma {
 
     class<T extends ClassDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassDefaultArgs<ExtArgs>>): Prisma__ClassClient<$Result.GetResult<Prisma.$ClassPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
+    subject<T extends SubjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubjectDefaultArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3689,6 +4780,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Attendence", 'String'>
     readonly userId: FieldRef<"Attendence", 'String'>
     readonly classId: FieldRef<"Attendence", 'String'>
+    readonly subjectId: FieldRef<"Attendence", 'String'>
     readonly createdAt: FieldRef<"Attendence", 'DateTime'>
   }
     
@@ -4043,8 +5135,7 @@ export namespace Prisma {
 
   export const ClassScalarFieldEnum: {
     id: 'id',
-    sem: 'sem',
-    subject: 'subject',
+    subjectId: 'subjectId',
     userId: 'userId',
     start: 'start',
     duration: 'duration',
@@ -4054,10 +5145,21 @@ export namespace Prisma {
   export type ClassScalarFieldEnum = (typeof ClassScalarFieldEnum)[keyof typeof ClassScalarFieldEnum]
 
 
+  export const SubjectScalarFieldEnum: {
+    id: 'id',
+    sem: 'sem',
+    coursename: 'coursename',
+    courseId: 'courseId'
+  };
+
+  export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
+
+
   export const AttendenceScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
     classId: 'classId',
+    subjectId: 'subjectId',
     createdAt: 'createdAt'
   };
 
@@ -4239,25 +5341,25 @@ export namespace Prisma {
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
     id?: StringFilter<"Class"> | string
-    sem?: IntFilter<"Class"> | number
-    subject?: StringFilter<"Class"> | string
+    subjectId?: StringFilter<"Class"> | string
     userId?: StringFilter<"Class"> | string
-    start?: DateTimeFilter<"Class"> | Date | string
-    duration?: DateTimeFilter<"Class"> | Date | string
+    start?: StringFilter<"Class"> | string
+    duration?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    subject?: XOR<SubjectRelationFilter, SubjectWhereInput>
     Attendence?: AttendenceListRelationFilter
   }
 
   export type ClassOrderByWithRelationInput = {
     id?: SortOrder
-    sem?: SortOrder
-    subject?: SortOrder
+    subjectId?: SortOrder
     userId?: SortOrder
     start?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
     Attendence?: AttendenceOrderByRelationAggregateInput
   }
 
@@ -4266,29 +5368,26 @@ export namespace Prisma {
     AND?: ClassWhereInput | ClassWhereInput[]
     OR?: ClassWhereInput[]
     NOT?: ClassWhereInput | ClassWhereInput[]
-    sem?: IntFilter<"Class"> | number
-    subject?: StringFilter<"Class"> | string
+    subjectId?: StringFilter<"Class"> | string
     userId?: StringFilter<"Class"> | string
-    start?: DateTimeFilter<"Class"> | Date | string
-    duration?: DateTimeFilter<"Class"> | Date | string
+    start?: StringFilter<"Class"> | string
+    duration?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
+    subject?: XOR<SubjectRelationFilter, SubjectWhereInput>
     Attendence?: AttendenceListRelationFilter
   }, "id" | "id">
 
   export type ClassOrderByWithAggregationInput = {
     id?: SortOrder
-    sem?: SortOrder
-    subject?: SortOrder
+    subjectId?: SortOrder
     userId?: SortOrder
     start?: SortOrder
     duration?: SortOrder
     createdAt?: SortOrder
     _count?: ClassCountOrderByAggregateInput
-    _avg?: ClassAvgOrderByAggregateInput
     _max?: ClassMaxOrderByAggregateInput
     _min?: ClassMinOrderByAggregateInput
-    _sum?: ClassSumOrderByAggregateInput
   }
 
   export type ClassScalarWhereWithAggregatesInput = {
@@ -4296,12 +5395,66 @@ export namespace Prisma {
     OR?: ClassScalarWhereWithAggregatesInput[]
     NOT?: ClassScalarWhereWithAggregatesInput | ClassScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Class"> | string
-    sem?: IntWithAggregatesFilter<"Class"> | number
-    subject?: StringWithAggregatesFilter<"Class"> | string
+    subjectId?: StringWithAggregatesFilter<"Class"> | string
     userId?: StringWithAggregatesFilter<"Class"> | string
-    start?: DateTimeWithAggregatesFilter<"Class"> | Date | string
-    duration?: DateTimeWithAggregatesFilter<"Class"> | Date | string
+    start?: StringWithAggregatesFilter<"Class"> | string
+    duration?: StringWithAggregatesFilter<"Class"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Class"> | Date | string
+  }
+
+  export type SubjectWhereInput = {
+    AND?: SubjectWhereInput | SubjectWhereInput[]
+    OR?: SubjectWhereInput[]
+    NOT?: SubjectWhereInput | SubjectWhereInput[]
+    id?: StringFilter<"Subject"> | string
+    sem?: IntFilter<"Subject"> | number
+    coursename?: StringFilter<"Subject"> | string
+    courseId?: StringFilter<"Subject"> | string
+    Class?: ClassListRelationFilter
+    Attendence?: AttendenceListRelationFilter
+  }
+
+  export type SubjectOrderByWithRelationInput = {
+    id?: SortOrder
+    sem?: SortOrder
+    coursename?: SortOrder
+    courseId?: SortOrder
+    Class?: ClassOrderByRelationAggregateInput
+    Attendence?: AttendenceOrderByRelationAggregateInput
+  }
+
+  export type SubjectWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    courseId?: string
+    AND?: SubjectWhereInput | SubjectWhereInput[]
+    OR?: SubjectWhereInput[]
+    NOT?: SubjectWhereInput | SubjectWhereInput[]
+    sem?: IntFilter<"Subject"> | number
+    coursename?: StringFilter<"Subject"> | string
+    Class?: ClassListRelationFilter
+    Attendence?: AttendenceListRelationFilter
+  }, "id" | "id" | "courseId">
+
+  export type SubjectOrderByWithAggregationInput = {
+    id?: SortOrder
+    sem?: SortOrder
+    coursename?: SortOrder
+    courseId?: SortOrder
+    _count?: SubjectCountOrderByAggregateInput
+    _avg?: SubjectAvgOrderByAggregateInput
+    _max?: SubjectMaxOrderByAggregateInput
+    _min?: SubjectMinOrderByAggregateInput
+    _sum?: SubjectSumOrderByAggregateInput
+  }
+
+  export type SubjectScalarWhereWithAggregatesInput = {
+    AND?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
+    OR?: SubjectScalarWhereWithAggregatesInput[]
+    NOT?: SubjectScalarWhereWithAggregatesInput | SubjectScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Subject"> | string
+    sem?: IntWithAggregatesFilter<"Subject"> | number
+    coursename?: StringWithAggregatesFilter<"Subject"> | string
+    courseId?: StringWithAggregatesFilter<"Subject"> | string
   }
 
   export type AttendenceWhereInput = {
@@ -4311,36 +5464,44 @@ export namespace Prisma {
     id?: StringFilter<"Attendence"> | string
     userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    subjectId?: StringFilter<"Attendence"> | string
     createdAt?: DateTimeFilter<"Attendence"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     class?: XOR<ClassRelationFilter, ClassWhereInput>
+    subject?: XOR<SubjectRelationFilter, SubjectWhereInput>
   }
 
   export type AttendenceOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    subjectId?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
     class?: ClassOrderByWithRelationInput
+    subject?: SubjectOrderByWithRelationInput
   }
 
   export type AttendenceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId?: string
+    userId_classId?: AttendenceUserIdClassIdCompoundUniqueInput
     AND?: AttendenceWhereInput | AttendenceWhereInput[]
     OR?: AttendenceWhereInput[]
     NOT?: AttendenceWhereInput | AttendenceWhereInput[]
+    userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    subjectId?: StringFilter<"Attendence"> | string
     createdAt?: DateTimeFilter<"Attendence"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     class?: XOR<ClassRelationFilter, ClassWhereInput>
-  }, "id" | "userId">
+    subject?: XOR<SubjectRelationFilter, SubjectWhereInput>
+  }, "id" | "userId_classId">
 
   export type AttendenceOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    subjectId?: SortOrder
     createdAt?: SortOrder
     _count?: AttendenceCountOrderByAggregateInput
     _max?: AttendenceMaxOrderByAggregateInput
@@ -4354,6 +5515,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Attendence"> | string
     userId?: StringWithAggregatesFilter<"Attendence"> | string
     classId?: StringWithAggregatesFilter<"Attendence"> | string
+    subjectId?: StringWithAggregatesFilter<"Attendence"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Attendence"> | Date | string
   }
 
@@ -4437,75 +5599,124 @@ export namespace Prisma {
 
   export type ClassCreateInput = {
     id?: string
-    sem: number
-    subject: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutClassInput
+    subject: SubjectCreateNestedOneWithoutClassInput
     Attendence?: AttendenceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateInput = {
     id?: string
-    sem: number
-    subject: string
+    subjectId: string
     userId: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
     Attendence?: AttendenceUncheckedCreateNestedManyWithoutClassInput
   }
 
   export type ClassUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutClassNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutClassNestedInput
     Attendence?: AttendenceUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Attendence?: AttendenceUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassCreateManyInput = {
     id?: string
-    sem: number
-    subject: string
+    subjectId: string
     userId: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
   }
 
   export type ClassUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClassUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectCreateInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Class?: ClassCreateNestedManyWithoutSubjectInput
+    Attendence?: AttendenceCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Class?: ClassUncheckedCreateNestedManyWithoutSubjectInput
+    Attendence?: AttendenceUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Class?: ClassUpdateManyWithoutSubjectNestedInput
+    Attendence?: AttendenceUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Class?: ClassUncheckedUpdateManyWithoutSubjectNestedInput
+    Attendence?: AttendenceUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectCreateManyInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+  }
+
+  export type SubjectUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubjectUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type AttendenceCreateInput = {
@@ -4513,12 +5724,14 @@ export namespace Prisma {
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutAttendenceInput
     class: ClassCreateNestedOneWithoutAttendenceInput
+    subject: SubjectCreateNestedOneWithoutAttendenceInput
   }
 
   export type AttendenceUncheckedCreateInput = {
     id?: string
     userId: string
     classId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -4527,12 +5740,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAttendenceNestedInput
     class?: ClassUpdateOneRequiredWithoutAttendenceNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutAttendenceNestedInput
   }
 
   export type AttendenceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4540,6 +5755,7 @@ export namespace Prisma {
     id?: string
     userId: string
     classId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -4552,6 +5768,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4718,6 +5935,43 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SubjectRelationFilter = {
+    is?: SubjectWhereInput
+    isNot?: SubjectWhereInput
+  }
+
+  export type ClassCountOrderByAggregateInput = {
+    id?: SortOrder
+    subjectId?: SortOrder
+    userId?: SortOrder
+    start?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ClassMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subjectId?: SortOrder
+    userId?: SortOrder
+    start?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ClassMinOrderByAggregateInput = {
+    id?: SortOrder
+    subjectId?: SortOrder
+    userId?: SortOrder
+    start?: SortOrder
+    duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -4729,46 +5983,32 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type UserRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
-  export type ClassCountOrderByAggregateInput = {
+  export type SubjectCountOrderByAggregateInput = {
     id?: SortOrder
     sem?: SortOrder
-    subject?: SortOrder
-    userId?: SortOrder
-    start?: SortOrder
-    duration?: SortOrder
-    createdAt?: SortOrder
+    coursename?: SortOrder
+    courseId?: SortOrder
   }
 
-  export type ClassAvgOrderByAggregateInput = {
+  export type SubjectAvgOrderByAggregateInput = {
     sem?: SortOrder
   }
 
-  export type ClassMaxOrderByAggregateInput = {
+  export type SubjectMaxOrderByAggregateInput = {
     id?: SortOrder
     sem?: SortOrder
-    subject?: SortOrder
-    userId?: SortOrder
-    start?: SortOrder
-    duration?: SortOrder
-    createdAt?: SortOrder
+    coursename?: SortOrder
+    courseId?: SortOrder
   }
 
-  export type ClassMinOrderByAggregateInput = {
+  export type SubjectMinOrderByAggregateInput = {
     id?: SortOrder
     sem?: SortOrder
-    subject?: SortOrder
-    userId?: SortOrder
-    start?: SortOrder
-    duration?: SortOrder
-    createdAt?: SortOrder
+    coursename?: SortOrder
+    courseId?: SortOrder
   }
 
-  export type ClassSumOrderByAggregateInput = {
+  export type SubjectSumOrderByAggregateInput = {
     sem?: SortOrder
   }
 
@@ -4793,10 +6033,16 @@ export namespace Prisma {
     isNot?: ClassWhereInput
   }
 
+  export type AttendenceUserIdClassIdCompoundUniqueInput = {
+    userId: string
+    classId: string
+  }
+
   export type AttendenceCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    subjectId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4804,6 +6050,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    subjectId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4811,6 +6058,7 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     classId?: SortOrder
+    subjectId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4920,6 +6168,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type SubjectCreateNestedOneWithoutClassInput = {
+    create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutClassInput
+    connect?: SubjectWhereUniqueInput
+  }
+
   export type AttendenceCreateNestedManyWithoutClassInput = {
     create?: XOR<AttendenceCreateWithoutClassInput, AttendenceUncheckedCreateWithoutClassInput> | AttendenceCreateWithoutClassInput[] | AttendenceUncheckedCreateWithoutClassInput[]
     connectOrCreate?: AttendenceCreateOrConnectWithoutClassInput | AttendenceCreateOrConnectWithoutClassInput[]
@@ -4934,20 +6188,20 @@ export namespace Prisma {
     connect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdateOneRequiredWithoutClassNestedInput = {
     create?: XOR<UserCreateWithoutClassInput, UserUncheckedCreateWithoutClassInput>
     connectOrCreate?: UserCreateOrConnectWithoutClassInput
     upsert?: UserUpsertWithoutClassInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutClassInput, UserUpdateWithoutClassInput>, UserUncheckedUpdateWithoutClassInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutClassNestedInput = {
+    create?: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutClassInput
+    upsert?: SubjectUpsertWithoutClassInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutClassInput, SubjectUpdateWithoutClassInput>, SubjectUncheckedUpdateWithoutClassInput>
   }
 
   export type AttendenceUpdateManyWithoutClassNestedInput = {
@@ -4978,6 +6232,98 @@ export namespace Prisma {
     deleteMany?: AttendenceScalarWhereInput | AttendenceScalarWhereInput[]
   }
 
+  export type ClassCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput> | ClassCreateWithoutSubjectInput[] | ClassUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ClassCreateOrConnectWithoutSubjectInput | ClassCreateOrConnectWithoutSubjectInput[]
+    createMany?: ClassCreateManySubjectInputEnvelope
+    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+  }
+
+  export type AttendenceCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput> | AttendenceCreateWithoutSubjectInput[] | AttendenceUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: AttendenceCreateOrConnectWithoutSubjectInput | AttendenceCreateOrConnectWithoutSubjectInput[]
+    createMany?: AttendenceCreateManySubjectInputEnvelope
+    connect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+  }
+
+  export type ClassUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput> | ClassCreateWithoutSubjectInput[] | ClassUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ClassCreateOrConnectWithoutSubjectInput | ClassCreateOrConnectWithoutSubjectInput[]
+    createMany?: ClassCreateManySubjectInputEnvelope
+    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+  }
+
+  export type AttendenceUncheckedCreateNestedManyWithoutSubjectInput = {
+    create?: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput> | AttendenceCreateWithoutSubjectInput[] | AttendenceUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: AttendenceCreateOrConnectWithoutSubjectInput | AttendenceCreateOrConnectWithoutSubjectInput[]
+    createMany?: AttendenceCreateManySubjectInputEnvelope
+    connect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type ClassUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput> | ClassCreateWithoutSubjectInput[] | ClassUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ClassCreateOrConnectWithoutSubjectInput | ClassCreateOrConnectWithoutSubjectInput[]
+    upsert?: ClassUpsertWithWhereUniqueWithoutSubjectInput | ClassUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ClassCreateManySubjectInputEnvelope
+    set?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    disconnect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    delete?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    update?: ClassUpdateWithWhereUniqueWithoutSubjectInput | ClassUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ClassUpdateManyWithWhereWithoutSubjectInput | ClassUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
+  }
+
+  export type AttendenceUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput> | AttendenceCreateWithoutSubjectInput[] | AttendenceUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: AttendenceCreateOrConnectWithoutSubjectInput | AttendenceCreateOrConnectWithoutSubjectInput[]
+    upsert?: AttendenceUpsertWithWhereUniqueWithoutSubjectInput | AttendenceUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: AttendenceCreateManySubjectInputEnvelope
+    set?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    disconnect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    delete?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    connect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    update?: AttendenceUpdateWithWhereUniqueWithoutSubjectInput | AttendenceUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: AttendenceUpdateManyWithWhereWithoutSubjectInput | AttendenceUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: AttendenceScalarWhereInput | AttendenceScalarWhereInput[]
+  }
+
+  export type ClassUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput> | ClassCreateWithoutSubjectInput[] | ClassUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: ClassCreateOrConnectWithoutSubjectInput | ClassCreateOrConnectWithoutSubjectInput[]
+    upsert?: ClassUpsertWithWhereUniqueWithoutSubjectInput | ClassUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: ClassCreateManySubjectInputEnvelope
+    set?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    disconnect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    delete?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    connect?: ClassWhereUniqueInput | ClassWhereUniqueInput[]
+    update?: ClassUpdateWithWhereUniqueWithoutSubjectInput | ClassUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: ClassUpdateManyWithWhereWithoutSubjectInput | ClassUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: ClassScalarWhereInput | ClassScalarWhereInput[]
+  }
+
+  export type AttendenceUncheckedUpdateManyWithoutSubjectNestedInput = {
+    create?: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput> | AttendenceCreateWithoutSubjectInput[] | AttendenceUncheckedCreateWithoutSubjectInput[]
+    connectOrCreate?: AttendenceCreateOrConnectWithoutSubjectInput | AttendenceCreateOrConnectWithoutSubjectInput[]
+    upsert?: AttendenceUpsertWithWhereUniqueWithoutSubjectInput | AttendenceUpsertWithWhereUniqueWithoutSubjectInput[]
+    createMany?: AttendenceCreateManySubjectInputEnvelope
+    set?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    disconnect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    delete?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    connect?: AttendenceWhereUniqueInput | AttendenceWhereUniqueInput[]
+    update?: AttendenceUpdateWithWhereUniqueWithoutSubjectInput | AttendenceUpdateWithWhereUniqueWithoutSubjectInput[]
+    updateMany?: AttendenceUpdateManyWithWhereWithoutSubjectInput | AttendenceUpdateManyWithWhereWithoutSubjectInput[]
+    deleteMany?: AttendenceScalarWhereInput | AttendenceScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAttendenceInput = {
     create?: XOR<UserCreateWithoutAttendenceInput, UserUncheckedCreateWithoutAttendenceInput>
     connectOrCreate?: UserCreateOrConnectWithoutAttendenceInput
@@ -4988,6 +6334,12 @@ export namespace Prisma {
     create?: XOR<ClassCreateWithoutAttendenceInput, ClassUncheckedCreateWithoutAttendenceInput>
     connectOrCreate?: ClassCreateOrConnectWithoutAttendenceInput
     connect?: ClassWhereUniqueInput
+  }
+
+  export type SubjectCreateNestedOneWithoutAttendenceInput = {
+    create?: XOR<SubjectCreateWithoutAttendenceInput, SubjectUncheckedCreateWithoutAttendenceInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutAttendenceInput
+    connect?: SubjectWhereUniqueInput
   }
 
   export type UserUpdateOneRequiredWithoutAttendenceNestedInput = {
@@ -5004,6 +6356,14 @@ export namespace Prisma {
     upsert?: ClassUpsertWithoutAttendenceInput
     connect?: ClassWhereUniqueInput
     update?: XOR<XOR<ClassUpdateToOneWithWhereWithoutAttendenceInput, ClassUpdateWithoutAttendenceInput>, ClassUncheckedUpdateWithoutAttendenceInput>
+  }
+
+  export type SubjectUpdateOneRequiredWithoutAttendenceNestedInput = {
+    create?: XOR<SubjectCreateWithoutAttendenceInput, SubjectUncheckedCreateWithoutAttendenceInput>
+    connectOrCreate?: SubjectCreateOrConnectWithoutAttendenceInput
+    upsert?: SubjectUpsertWithoutAttendenceInput
+    connect?: SubjectWhereUniqueInput
+    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutAttendenceInput, SubjectUpdateWithoutAttendenceInput>, SubjectUncheckedUpdateWithoutAttendenceInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5161,20 +6521,18 @@ export namespace Prisma {
 
   export type ClassCreateWithoutUserInput = {
     id?: string
-    sem: number
-    subject: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
+    subject: SubjectCreateNestedOneWithoutClassInput
     Attendence?: AttendenceCreateNestedManyWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutUserInput = {
     id?: string
-    sem: number
-    subject: string
-    start: Date | string
-    duration: Date | string
+    subjectId: string
+    start: string
+    duration: string
     createdAt?: Date | string
     Attendence?: AttendenceUncheckedCreateNestedManyWithoutClassInput
   }
@@ -5193,11 +6551,13 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     class: ClassCreateNestedOneWithoutAttendenceInput
+    subject: SubjectCreateNestedOneWithoutAttendenceInput
   }
 
   export type AttendenceUncheckedCreateWithoutUserInput = {
     id?: string
     classId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -5232,11 +6592,10 @@ export namespace Prisma {
     OR?: ClassScalarWhereInput[]
     NOT?: ClassScalarWhereInput | ClassScalarWhereInput[]
     id?: StringFilter<"Class"> | string
-    sem?: IntFilter<"Class"> | number
-    subject?: StringFilter<"Class"> | string
+    subjectId?: StringFilter<"Class"> | string
     userId?: StringFilter<"Class"> | string
-    start?: DateTimeFilter<"Class"> | Date | string
-    duration?: DateTimeFilter<"Class"> | Date | string
+    start?: StringFilter<"Class"> | string
+    duration?: StringFilter<"Class"> | string
     createdAt?: DateTimeFilter<"Class"> | Date | string
   }
 
@@ -5263,6 +6622,7 @@ export namespace Prisma {
     id?: StringFilter<"Attendence"> | string
     userId?: StringFilter<"Attendence"> | string
     classId?: StringFilter<"Attendence"> | string
+    subjectId?: StringFilter<"Attendence"> | string
     createdAt?: DateTimeFilter<"Attendence"> | Date | string
   }
 
@@ -5293,15 +6653,38 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutClassInput, UserUncheckedCreateWithoutClassInput>
   }
 
+  export type SubjectCreateWithoutClassInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Attendence?: AttendenceCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutClassInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Attendence?: AttendenceUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutClassInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput>
+  }
+
   export type AttendenceCreateWithoutClassInput = {
     id?: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutAttendenceInput
+    subject: SubjectCreateNestedOneWithoutAttendenceInput
   }
 
   export type AttendenceUncheckedCreateWithoutClassInput = {
     id?: string
     userId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -5348,6 +6731,33 @@ export namespace Prisma {
     Attendence?: AttendenceUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type SubjectUpsertWithoutClassInput = {
+    update: XOR<SubjectUpdateWithoutClassInput, SubjectUncheckedUpdateWithoutClassInput>
+    create: XOR<SubjectCreateWithoutClassInput, SubjectUncheckedCreateWithoutClassInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutClassInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutClassInput, SubjectUncheckedUpdateWithoutClassInput>
+  }
+
+  export type SubjectUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Attendence?: AttendenceUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutClassInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Attendence?: AttendenceUncheckedUpdateManyWithoutSubjectNestedInput
+  }
+
   export type AttendenceUpsertWithWhereUniqueWithoutClassInput = {
     where: AttendenceWhereUniqueInput
     update: XOR<AttendenceUpdateWithoutClassInput, AttendenceUncheckedUpdateWithoutClassInput>
@@ -5362,6 +6772,90 @@ export namespace Prisma {
   export type AttendenceUpdateManyWithWhereWithoutClassInput = {
     where: AttendenceScalarWhereInput
     data: XOR<AttendenceUpdateManyMutationInput, AttendenceUncheckedUpdateManyWithoutClassInput>
+  }
+
+  export type ClassCreateWithoutSubjectInput = {
+    id?: string
+    start: string
+    duration: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutClassInput
+    Attendence?: AttendenceCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    userId: string
+    start: string
+    duration: string
+    createdAt?: Date | string
+    Attendence?: AttendenceUncheckedCreateNestedManyWithoutClassInput
+  }
+
+  export type ClassCreateOrConnectWithoutSubjectInput = {
+    where: ClassWhereUniqueInput
+    create: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ClassCreateManySubjectInputEnvelope = {
+    data: ClassCreateManySubjectInput | ClassCreateManySubjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttendenceCreateWithoutSubjectInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAttendenceInput
+    class: ClassCreateNestedOneWithoutAttendenceInput
+  }
+
+  export type AttendenceUncheckedCreateWithoutSubjectInput = {
+    id?: string
+    userId: string
+    classId: string
+    createdAt?: Date | string
+  }
+
+  export type AttendenceCreateOrConnectWithoutSubjectInput = {
+    where: AttendenceWhereUniqueInput
+    create: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type AttendenceCreateManySubjectInputEnvelope = {
+    data: AttendenceCreateManySubjectInput | AttendenceCreateManySubjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: ClassWhereUniqueInput
+    update: XOR<ClassUpdateWithoutSubjectInput, ClassUncheckedUpdateWithoutSubjectInput>
+    create: XOR<ClassCreateWithoutSubjectInput, ClassUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type ClassUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: ClassWhereUniqueInput
+    data: XOR<ClassUpdateWithoutSubjectInput, ClassUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type ClassUpdateManyWithWhereWithoutSubjectInput = {
+    where: ClassScalarWhereInput
+    data: XOR<ClassUpdateManyMutationInput, ClassUncheckedUpdateManyWithoutSubjectInput>
+  }
+
+  export type AttendenceUpsertWithWhereUniqueWithoutSubjectInput = {
+    where: AttendenceWhereUniqueInput
+    update: XOR<AttendenceUpdateWithoutSubjectInput, AttendenceUncheckedUpdateWithoutSubjectInput>
+    create: XOR<AttendenceCreateWithoutSubjectInput, AttendenceUncheckedCreateWithoutSubjectInput>
+  }
+
+  export type AttendenceUpdateWithWhereUniqueWithoutSubjectInput = {
+    where: AttendenceWhereUniqueInput
+    data: XOR<AttendenceUpdateWithoutSubjectInput, AttendenceUncheckedUpdateWithoutSubjectInput>
+  }
+
+  export type AttendenceUpdateManyWithWhereWithoutSubjectInput = {
+    where: AttendenceScalarWhereInput
+    data: XOR<AttendenceUpdateManyMutationInput, AttendenceUncheckedUpdateManyWithoutSubjectInput>
   }
 
   export type UserCreateWithoutAttendenceInput = {
@@ -5393,27 +6887,46 @@ export namespace Prisma {
 
   export type ClassCreateWithoutAttendenceInput = {
     id?: string
-    sem: number
-    subject: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutClassInput
+    subject: SubjectCreateNestedOneWithoutClassInput
   }
 
   export type ClassUncheckedCreateWithoutAttendenceInput = {
     id?: string
-    sem: number
-    subject: string
+    subjectId: string
     userId: string
-    start: Date | string
-    duration: Date | string
+    start: string
+    duration: string
     createdAt?: Date | string
   }
 
   export type ClassCreateOrConnectWithoutAttendenceInput = {
     where: ClassWhereUniqueInput
     create: XOR<ClassCreateWithoutAttendenceInput, ClassUncheckedCreateWithoutAttendenceInput>
+  }
+
+  export type SubjectCreateWithoutAttendenceInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Class?: ClassCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectUncheckedCreateWithoutAttendenceInput = {
+    id?: string
+    sem: number
+    coursename: string
+    courseId: string
+    Class?: ClassUncheckedCreateNestedManyWithoutSubjectInput
+  }
+
+  export type SubjectCreateOrConnectWithoutAttendenceInput = {
+    where: SubjectWhereUniqueInput
+    create: XOR<SubjectCreateWithoutAttendenceInput, SubjectUncheckedCreateWithoutAttendenceInput>
   }
 
   export type UserUpsertWithoutAttendenceInput = {
@@ -5462,65 +6975,87 @@ export namespace Prisma {
 
   export type ClassUpdateWithoutAttendenceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutClassNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutAttendenceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubjectUpsertWithoutAttendenceInput = {
+    update: XOR<SubjectUpdateWithoutAttendenceInput, SubjectUncheckedUpdateWithoutAttendenceInput>
+    create: XOR<SubjectCreateWithoutAttendenceInput, SubjectUncheckedCreateWithoutAttendenceInput>
+    where?: SubjectWhereInput
+  }
+
+  export type SubjectUpdateToOneWithWhereWithoutAttendenceInput = {
+    where?: SubjectWhereInput
+    data: XOR<SubjectUpdateWithoutAttendenceInput, SubjectUncheckedUpdateWithoutAttendenceInput>
+  }
+
+  export type SubjectUpdateWithoutAttendenceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Class?: ClassUpdateManyWithoutSubjectNestedInput
+  }
+
+  export type SubjectUncheckedUpdateWithoutAttendenceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sem?: IntFieldUpdateOperationsInput | number
+    coursename?: StringFieldUpdateOperationsInput | string
+    courseId?: StringFieldUpdateOperationsInput | string
+    Class?: ClassUncheckedUpdateManyWithoutSubjectNestedInput
   }
 
   export type ClassCreateManyUserInput = {
     id?: string
-    sem: number
-    subject: string
-    start: Date | string
-    duration: Date | string
+    subjectId: string
+    start: string
+    duration: string
     createdAt?: Date | string
   }
 
   export type AttendenceCreateManyUserInput = {
     id?: string
     classId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
   export type ClassUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subject?: SubjectUpdateOneRequiredWithoutClassNestedInput
     Attendence?: AttendenceUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Attendence?: AttendenceUncheckedUpdateManyWithoutClassNestedInput
   }
 
   export type ClassUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sem?: IntFieldUpdateOperationsInput | number
-    subject?: StringFieldUpdateOperationsInput | string
-    start?: DateTimeFieldUpdateOperationsInput | Date | string
-    duration?: DateTimeFieldUpdateOperationsInput | Date | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5528,23 +7063,27 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     class?: ClassUpdateOneRequiredWithoutAttendenceNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutAttendenceNestedInput
   }
 
   export type AttendenceUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     classId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceCreateManyClassInput = {
     id?: string
     userId: string
+    subjectId: string
     createdAt?: Date | string
   }
 
@@ -5552,17 +7091,82 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAttendenceNestedInput
+    subject?: SubjectUpdateOneRequiredWithoutAttendenceNestedInput
   }
 
   export type AttendenceUncheckedUpdateWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendenceUncheckedUpdateManyWithoutClassInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    subjectId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClassCreateManySubjectInput = {
+    id?: string
+    userId: string
+    start: string
+    duration: string
+    createdAt?: Date | string
+  }
+
+  export type AttendenceCreateManySubjectInput = {
+    id?: string
+    userId: string
+    classId: string
+    createdAt?: Date | string
+  }
+
+  export type ClassUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutClassNestedInput
+    Attendence?: AttendenceUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Attendence?: AttendenceUncheckedUpdateManyWithoutClassNestedInput
+  }
+
+  export type ClassUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    start?: StringFieldUpdateOperationsInput | string
+    duration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendenceUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAttendenceNestedInput
+    class?: ClassUpdateOneRequiredWithoutAttendenceNestedInput
+  }
+
+  export type AttendenceUncheckedUpdateWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendenceUncheckedUpdateManyWithoutSubjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    classId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5580,6 +7184,10 @@ export namespace Prisma {
      */
     export type ClassCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClassCountOutputTypeDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use SubjectCountOutputTypeDefaultArgs instead
+     */
+    export type SubjectCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SubjectCountOutputTypeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use UserDefaultArgs instead
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
@@ -5587,6 +7195,10 @@ export namespace Prisma {
      * @deprecated Use ClassDefaultArgs instead
      */
     export type ClassArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClassDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SubjectDefaultArgs instead
+     */
+    export type SubjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SubjectDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AttendenceDefaultArgs instead
      */

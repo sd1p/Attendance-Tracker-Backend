@@ -7,14 +7,23 @@ import ErrorHandler from "../../libs/ErrorHandler";
 
 export const createClass = asyncHandler(
   async (req: CreateClassRequest, res: Response): Promise<void> => {
-    const { sem, subject, start, duration } = req.body;
+    const { courseId, start, duration } = req.body;
     const userId=req.user.id;
     const prisma = getClient();
 
+
+    const subject = await prisma.subject.findUnique({
+      where:{
+        courseId
+      }
+    })
+    
+     if(!subject){
+      throw Error('invalid subject');
+     }
     const createdClass = await prisma.class.create({
       data: {
-        sem,
-        subject,
+        subjectId:subject?.id,
         userId,
         start,
         duration,
@@ -24,6 +33,31 @@ export const createClass = asyncHandler(
 
     if (createClass) {
         res.json({createdClass}).status(200);
+    } else {
+      throw new ErrorHandler("Class Already created", 400);
+    }
+
+  }
+);
+
+export const getClass = asyncHandler(
+  async (req: CreateClassRequest, res: Response): Promise<void> => {
+    const userId=req.user.id;
+    const prisma = getClient();
+
+
+    const classes = await prisma.class.findMany({
+      where:{
+        userId
+      },
+      orderBy:{
+        createdAt:"desc"
+      }
+    })
+
+
+    if (createClass) {
+        res.json(classes).status(200);
     } else {
       throw new ErrorHandler("Class Already created", 400);
     }

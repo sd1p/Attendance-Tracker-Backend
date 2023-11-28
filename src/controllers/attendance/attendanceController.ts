@@ -7,18 +7,39 @@ import { AddAttendanceRequest, GetAttendanceRequest } from "./interface";
 // only student routes
 export const addAttendance = asyncHandler(
   async (req: AddAttendanceRequest, res: Response): Promise<void> => {
-    const { classId,userId } = req.body;
+    const { classId,rollno } = req.body;
     const prisma = getClient();
 
-    const attandance = await prisma.attendence.create({
+    const student= await prisma.user.findUnique({
+      where:{
+        rollno
+      }
+    })
+    console.log(classId);
+    
+    
+    const classDetails= await prisma.class.findUnique({
+      where:{
+        id:classId
+      }
+    })
+
+
+
+    if(!student&&!classDetails){
+      throw Error("Student not found");
+    }
+
+    const attendence = await prisma.attendence.create({
       data: {
         classId,
-        userId,
+        userId: student?.id as string,
+        subjectId:classDetails?.subjectId as string
       },
     });
-
-    if (attandance) {
-      res.json({ message: "Attendance Added", attandance }).status(200);
+    
+    if (attendence) {
+      res.json({ message: "Attendance Added", attendence }).status(200);
     } else {
       throw new ErrorHandler("Class Already created", 400);
     }
@@ -29,17 +50,20 @@ export const getAttendance = asyncHandler(
   async (req: GetAttendanceRequest, res: Response): Promise<void> => {
     const prisma = getClient();
     const userId = req.user.id;
-    const classId = req.body.classId;
+    const courseId = req.body.courseId;
 
-    const whereCondition: {
+    
+    let whereCondition: {
       userId: string;
-      classId?: string;
+      subject?:{
+        courseId?:string
+      }
     } = {
       userId: userId,
     };
 
-    if (classId) {
-      whereCondition.classId = classId as string;
+    if (courseId) {
+      whereCondition.subject = { courseId: courseId as string };
     }
 
     const attendance = await prisma.attendence.findMany({
@@ -48,6 +72,9 @@ export const getAttendance = asyncHandler(
         user: true,
         class: true,
       },
+      orderBy:{
+        createdAt:'desc'
+      }
     });
 
     if (attendance) {

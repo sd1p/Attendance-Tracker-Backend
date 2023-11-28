@@ -7,8 +7,8 @@ export enum Role {
 
 export interface AddAttendanceRequest extends Request {
   body: {
-    classId: string;
-    userId:string
+    rollno: string;
+    classId:string
   };
   user: {
     id: string;
@@ -30,6 +30,6 @@ export interface GetAttendanceRequest extends Request {
     password: string;
   },
   body:{
-    classId?:string;
+    courseId?:string;
   }
 }
