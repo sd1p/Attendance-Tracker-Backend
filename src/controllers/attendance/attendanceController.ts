@@ -24,8 +24,6 @@ export const addAttendance = asyncHandler(
       }
     })
 
-
-
     if(!student&&!classDetails){
       throw Error("Student not found");
     }

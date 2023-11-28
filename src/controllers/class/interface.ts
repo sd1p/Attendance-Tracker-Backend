@@ -18,3 +18,17 @@ export interface CreateClassRequest extends Request {
       },
   }
   
+export interface getClassAttendanceRequest extends Request {
+    body: {
+        classId:string
+    },
+    user: {
+        id: string;
+        name: string;
+        rollno?: string;
+        email?: string;
+        role: Role | undefined;
+        password: string;
+      },
+  }
+  

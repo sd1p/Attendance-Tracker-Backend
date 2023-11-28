@@ -2,7 +2,7 @@ import { Response } from "express";
 import asyncHandler from "express-async-handler";
 import { getClient } from "../../config/prismadb";
 import { generateToken } from "../../libs/jwtToken";
-import { CreateClassRequest } from "./interface";
+import { CreateClassRequest, getClassAttendanceRequest } from "./interface";
 import ErrorHandler from "../../libs/ErrorHandler";
 
 export const createClass = asyncHandler(
@@ -64,6 +64,31 @@ export const getClass = asyncHandler(
 
     if (createClass) {
         res.json(classes).status(200);
+    } else {
+      throw new ErrorHandler("Class Already created", 400);
+    }
+
+  }
+);
+
+
+export const getClassAttendance = asyncHandler(
+  async (req: getClassAttendanceRequest, res: Response): Promise<void> => {
+    const { classId } = req.body;
+    const userId=req.user.id;
+    const prisma = getClient();
+    const Attendance = await prisma.class.findUnique({
+      where:{
+        id:classId
+      },
+      include:{
+        Attendence:true
+      },
+    })
+
+
+    if (createClass) {
+        res.json(Attendance).status(200);
     } else {
       throw new ErrorHandler("Class Already created", 400);
     }
