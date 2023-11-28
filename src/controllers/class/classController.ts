@@ -28,6 +28,9 @@ export const createClass = asyncHandler(
         start,
         duration,
       },
+      include:{
+        subject:true
+      }
     });
 
 

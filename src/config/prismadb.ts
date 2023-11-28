@@ -6,8 +6,11 @@ declare global {
 
 export const getClient = () => {
   if (!globalThis.prisma) {
-    globalThis.prisma = new PrismaClient();
+    globalThis.prisma = new PrismaClient({
+      log: ['query'], 
+    });
   }
+
 
   return globalThis.prisma;
 };
