@@ -4,27 +4,25 @@ import { getClient } from "../../config/prismadb";
 import ErrorHandler from "../../libs/ErrorHandler";
 import { AddAttendanceRequest, GetAttendanceRequest } from "./interface";
 
-// only student routes
 export const addAttendance = asyncHandler(
   async (req: AddAttendanceRequest, res: Response): Promise<void> => {
-    const { classId,rollno } = req.body;
+    const { classId, rollno } = req.body;
     const prisma = getClient();
 
-    const student= await prisma.user.findUnique({
-      where:{
-        rollno
-      }
-    })
+    const student = await prisma.user.findUnique({
+      where: {
+        rollno,
+      },
+    });
     console.log(classId);
-    
-    
-    const classDetails= await prisma.class.findUnique({
-      where:{
-        id:classId
-      }
-    })
 
-    if(!student&&!classDetails){
+    const classDetails = await prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+    });
+
+    if (!student && !classDetails) {
       throw Error("Student not found");
     }
 
@@ -32,10 +30,10 @@ export const addAttendance = asyncHandler(
       data: {
         classId,
         userId: student?.id as string,
-        subjectId:classDetails?.subjectId as string
+        subjectId: classDetails?.subjectId as string,
       },
     });
-    
+
     if (attendence) {
       res.json({ message: "Attendance Added", attendence }).status(200);
     } else {
@@ -50,12 +48,11 @@ export const getAttendance = asyncHandler(
     const userId = req.user.id;
     const courseId = req.body.courseId;
 
-    
     let whereCondition: {
       userId: string;
-      subject?:{
-        courseId?:string
-      }
+      subject?: {
+        courseId?: string;
+      };
     } = {
       userId: userId,
     };
@@ -70,9 +67,9 @@ export const getAttendance = asyncHandler(
         user: true,
         class: true,
       },
-      orderBy:{
-        createdAt:'desc'
-      }
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     if (attendance) {

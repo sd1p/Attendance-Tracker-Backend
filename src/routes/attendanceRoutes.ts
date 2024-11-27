@@ -1,16 +1,22 @@
-import express from 'express'
-import { isAuthenticated,authorizedRoles } from '../middleware/authMiddleware';
-import { addAttendance, getAttendance, } from '../controllers/attendance/attendanceController';
+import express from "express";
+import { isAuthenticated, authorizedRoles } from "../middleware/authMiddleware";
+import {
+  addAttendance,
+  getAttendance,
+} from "../controllers/attendance/attendanceController";
 
-const router =express.Router()
+const router = express.Router();
 
 export enum Role {
-    STUDENT = "STUDENT",
-    FACULTY = "FACULTY",
-  }
+  STUDENT = "STUDENT",
+  FACULTY = "FACULTY",
+}
 
-router.route("/attendance").post(isAuthenticated,authorizedRoles(Role.FACULTY),addAttendance);
-router.route("/attendance").get(isAuthenticated,authorizedRoles(Role.STUDENT),getAttendance);
-
+router
+  .route("/attendance")
+  .post(isAuthenticated, authorizedRoles(Role.FACULTY), addAttendance);
+router
+  .route("/attendance")
+  .get(isAuthenticated, authorizedRoles(Role.STUDENT), getAttendance);
 
 export default router;

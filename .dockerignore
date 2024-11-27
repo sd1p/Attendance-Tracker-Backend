@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+Dockerfile
+.dockerignore
+.env.local
+.env.development
+.env.test
+.env.production
+dist
+coverage
+.git
+.gitignore
+.vscode
+.idea
+*.tsbuildinfo
+prisma/migrations

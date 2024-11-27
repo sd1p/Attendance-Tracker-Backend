@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
     output   = "./generated/client"
@@ -25,10 +22,10 @@ model User {
 
 model Class {
     id         String       @id @unique @default(uuid())
-    subjectId  String  //given by subject ID     
-    userId     String  //for faculty
-    start      String 
-    duration   String 
+    subjectId  String //given by subject ID     
+    userId     String //for faculty
+    start      String
+    duration   String
     createdAt  DateTime     @default(now())
     user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     subject    Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
@@ -46,13 +43,14 @@ model Subject {
 
 model Attendence {
     id        String   @id @default(uuid())
-    userId    String  // rolno->
-    classId   String  
-    subjectId String   
+    userId    String // rolno->
+    classId   String
+    subjectId String
     createdAt DateTime @default(now())
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
     subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
     @@unique([userId, classId])
 }
 

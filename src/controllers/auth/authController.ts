@@ -1,14 +1,13 @@
-import { Response } from 'express';
-import asyncHandler from 'express-async-handler';
-import { getClient } from '../../config/prismadb';
-import bcrypt from 'bcrypt';
-import { generateToken} from '../../libs/jwtToken';
-import { GetUserDetailsRequest, RegisterUserRequest} from './interface';
-import ErrorHandler from '../../libs/ErrorHandler';
+import { Response } from "express";
+import asyncHandler from "express-async-handler";
+import { getClient } from "../../config/prismadb";
+import bcrypt from "bcrypt";
+import { generateToken } from "../../libs/jwtToken";
+import { GetUserDetailsRequest, RegisterUserRequest } from "./interface";
+import ErrorHandler from "../../libs/ErrorHandler";
 
 export const registerUser = asyncHandler(
   async (req: RegisterUserRequest, res: Response): Promise<void> => {
-
     const { name, rollno, password, role, email } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -28,17 +27,22 @@ export const registerUser = asyncHandler(
 
     if (user) {
       token = await generateToken(user.id);
-    }else{
-      throw new ErrorHandler("User Already registerd",400);
+      const { password, ...userWithoutPassword } = user;
+      res.status(200).json({ ...userWithoutPassword, token });
+    } else {
+      throw new ErrorHandler("User Already registered", 400);
     }
-
-    res.json({ ...user, token }).status(200);
   }
 );
 
 export const getUserDetails = asyncHandler(
   async (req: GetUserDetailsRequest, res: Response): Promise<void> => {
-    res.json({ user: req?.user }).status(200);
+    if (req?.user) {
+      const { password, ...userWithoutPassword } = req.user;
+      res.status(200).json({ user: userWithoutPassword });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
   }
 );
 
@@ -49,16 +53,21 @@ export const loginUser = asyncHandler(
     const prisma = getClient();
 
     const user = await prisma.user.findFirst({
-      where: {OR: [{rollno},{email}]}
-     });
+      where: { OR: [{ rollno }, { email }] },
+    });
 
-     const passwordsMatch = await bcrypt.compare(password, user?.password as string);
+    if (user) {
+      const passwordsMatch = await bcrypt.compare(password, user.password);
 
-    if (passwordsMatch) {
-      const token = await generateToken(user?.id as string);
-      res.json({...user,token}).status(200);
-    }else{
-      throw new ErrorHandler("Invalid Credentials",400);
+      if (passwordsMatch) {
+        const token = await generateToken(user.id);
+        const { password, ...userWithoutPassword } = user;
+        res.status(200).json({ ...userWithoutPassword, token });
+      } else {
+        throw new ErrorHandler("Invalid Credentials", 400);
+      }
+    } else {
+      throw new ErrorHandler("User not found", 404);
     }
   }
 );

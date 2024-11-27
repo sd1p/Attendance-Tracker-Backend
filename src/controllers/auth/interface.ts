@@ -9,15 +9,15 @@ export interface RegisterUserRequest extends Request {
   body: {
     name: string;
     rollno?: string;
-    email?: string;
-    role?: Role | undefined;
+    email: string;
+    role?: Role;
     password: string;
   };
 }
 
 export interface GetUserDetailsRequest extends Request {
   user?: {
-    id:string
+    id: string;
     name: string;
     rollno?: string;
     email?: string;
@@ -27,10 +27,10 @@ export interface GetUserDetailsRequest extends Request {
 }
 
 export interface loginRequest extends Request {
-    body: {
-        rollno?: string;
-        email?: string;
-        role?: Role | undefined;
-        password: string;
-      };
+  body: {
+    rollno?: string;
+    email?: string;
+    role?: Role | undefined;
+    password: string;
+  };
 }
