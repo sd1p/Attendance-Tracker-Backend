@@ -4,6 +4,8 @@
 
 Attendance Tracker Backend is a robust API that facilitates the management of attendance for students and faculty. This project includes endpoints for authentication, attendance tracking, and managing class schedules. The backend is designed to be secure and scalable, utilizing token-based authentication and modular architecture.
 
+This backend was developed as part of my 5th-semester minor project for the DBMS subject (CS3001) at IIITR. The project also included a Flutter-based mobile application where faculty members could scan a student's ID card QR code to mark attendance seamlessly.
+
 ---
 
 ## Features  
